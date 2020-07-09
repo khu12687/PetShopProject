@@ -58,13 +58,13 @@ input:hover,
 }
 
 /* style the submit button */
-input[type=submit] {
+input[type=button] {
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type=butoon]:hover {
   background-color: #45a049;
 }
 
@@ -133,14 +133,25 @@ input[type=submit]:hover {
   }
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function(){
+	//로그인 버튼 누르면..
+	$("input[type='button']").click(function(){
+		$("form").attr({
+			"action":"/admin/login",
+			"method":"post"
+		});
+		$("form").submit();
+	});
+	
+});
+</script>
 </head>
 <body>
 
-<h2>Responsive Social Login Form</h2>
-<p>Resize the browser window to see the responsive effect. When the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other.</p>
-
 <div class="container">
-  <form action="/action_page.php">
+  <form >
     <div class="row">
       <h2 style="text-align:center">Login with Social Media or Manually</h2>
       <div class="vl">
@@ -164,9 +175,9 @@ input[type=submit]:hover {
           <p>Or sign in manually:</p>
         </div>
 
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" 		  name="id" 			   placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
+        <input type="button" value="Login">
       </div>
       
     </div>
