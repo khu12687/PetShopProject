@@ -1,4 +1,8 @@
+<%@page import="java.util.List"%>
+<%@page import="com.pet.model.product.Product"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%List<Product> productList = (List)request.getAttribute("productList"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,10 +10,20 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/admin.css">
 <style >
-select{
-	width:200px;
-	height:150px;
-	
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -57,14 +71,13 @@ function getList(){
 			console.log(result);
 			
 			var json = JSON.parse(result);
-		
+			alert(result);
 			$("select").empty(); //비우기!
 			
 			for(var i=0; i<json.categoryList.length; i++){
 				var obj = json.categoryList[i];
 				$("select").append("<option value='"+obj.category_id+"'>"+obj.category_name+"</option>");
 			}
-
 		}
 	
 	});
@@ -73,7 +86,7 @@ function getList(){
 //비동기로 삭제하기!!
 function del(){
 	if(confirm($("select").val()+"를 삭제하실래요?")){
-	$.ajax({
+	$.ajsax({
 		"url":"/category/del?category_id="+$("select").val(),
 		"type":"get",
 		success:function(result){
@@ -89,17 +102,35 @@ function del(){
 }
 </script>
 </head>
-<body bgcolor="yellow">
+<body>
 <%@ include file="/admin/inc/main_navi.jsp" %>
-<div>
-	<input type "text" name="category_name" placeholder="카테고리 입력"/>
-	<button>등록</button>
-	<p>
-		<select name="category_id" multiple="multiple"></select>
-	</p>
-	<button>수정</button>
-	<button>삭제</button>
-	<button>목록</button>
-</div>
+
+<table>
+  <tr>
+    <th>No</th>
+    <th>이미지</th>
+    <th>카테고리</th>
+    <th>상품명</th>
+    <th>가격</th>
+    <th>브랜드</th>
+  </tr>
+  <%for(int i=0;i<productList.size();i++){ %>
+  <%Product product = productList.get(i); %>
+  <tr>
+    <td>1</td>
+    <td><img src="/data/<%=product.getFilename()%>" width="35px"/></td>
+    <td><% %></td>
+    <td><%=product.getProduct_name() %></td>
+    <td><%=product.getPrice() %></td>
+    <td><%=product.getBrand() %></td>
+  </tr>
+  <%} %>
+  <tr>
+  	<td colspan="6" align="center">
+  		<button onclick="location.href='/admin/product/registForm.jsp';">상품등록</button>
+  	</td>
+  </tr>
+</table>
+
 </body>
 </html>

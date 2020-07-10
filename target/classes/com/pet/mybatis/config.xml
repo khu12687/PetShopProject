@@ -6,10 +6,12 @@
  	<typeAliases>
  		<typeAlias type="com.pet.model.admin.Admin" alias="Admin"/>
  		<typeAlias type="com.pet.model.category.Category" alias="Category"/>
+ 		<typeAlias type="com.pet.model.product.Product" alias="Product"/>
  		
  	</typeAliases>
   <mappers>
     <mapper resource="com/pet/mybatis/AdminMapper.xml"/>
     <mapper resource="com/pet/mybatis/CategoryMapper.xml"/>
+    <mapper resource="com/pet/mybatis/ProductMapper.xml"/>
   </mappers>
 </configuration>
