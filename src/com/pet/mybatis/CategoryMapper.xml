@@ -15,7 +15,11 @@
 		select * from category
 	</select>
 	
-	
+	<!-- 한건 가져오기 -->
+	<select id="select" parameterType="int" resultType="Category">
+		select * from category 
+		where category_id=#{category_id}
+	</select>
 	<insert id="insert" parameterType="Category">
 		insert into category(category_id, category_name)
 		values(seq_category.nextval,#{category_name})

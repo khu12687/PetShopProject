@@ -6,12 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pet.controller.common.Pager;
 import com.pet.exception.DMLException;
 import com.pet.exception.FileSaveException;
 import com.pet.model.product.Product;
@@ -21,6 +23,8 @@ import com.pet.model.product.ProductService;
 public class ProductController {
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private Pager pager;
 	
 	@RequestMapping(value="/admin/product/regist",method=RequestMethod.POST)
 	public ModelAndView regist(Product product,HttpServletRequest request) {
@@ -46,12 +50,35 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/admin/product/list",method=RequestMethod.GET)
-	public ModelAndView selectAll() {
+	public ModelAndView selectAll(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List<Product> productList = productService.selectAll();
+		//페이징 처리 객체
+		pager.init(productList, request);
 		mav.addObject("productList",productList);
+		mav.addObject("pager",pager);
+		
 		mav.setViewName("admin/product/index");
 		return mav;
+	}
+	
+	//상세보기 요청
+	@RequestMapping(value="/admin/product/detail",method=RequestMethod.GET)
+	public String select(Model model,@RequestParam int product_id) {
+		System.out.println("product_id 는 "+product_id);
+		Product product = productService.select(product_id);
+		model.addAttribute("product",product);
+		return "admin/product/detail";
+	}
+	
+	//삭제 요청
+	@RequestMapping(value="/admin/product/delete",method= {RequestMethod.GET,RequestMethod.POST})
+	public String delete(Model model,@RequestParam int product_id) {
+		productService.delete(product_id);
+		//파일도 삭제!!
+		model.addAttribute("url","/admin/product/list");
+		model.addAttribute("msg","삭제 성공");
+		return "view/message";
 	}
 	
 	@ExceptionHandler({FileSaveException.class,DMLException.class})
@@ -59,10 +86,10 @@ public class ProductController {
 		ModelAndView mav = new ModelAndView();
 	
 		//파일 업로드 에러인 경우
-		if(e instanceof FileSaveException) {
+		if(e !=null) {
 			mav.addObject("e",e);
 			mav.addObject("msg",e.getMessage());
-		}else if(e2 instanceof DMLException) {
+		}else if(e2 !=null) {
 			mav.addObject("e",e2);
 			mav.addObject("msg",e2.getMessage());
 		}

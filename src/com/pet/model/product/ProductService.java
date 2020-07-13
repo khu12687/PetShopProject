@@ -27,4 +27,17 @@ public class ProductService {
 	public List selectAll() {
 		return productDAO.selectAll();
 	}
+	
+	public Product select(int product_id) {
+		return productDAO.select(product_id);
+	}
+	
+	public void delete(int product_id) throws DMLException{
+		productDAO.delete(product_id);
+	}
+	
+	public Product edit(int product_id) {
+		
+		return null;
+	}
 }
