@@ -95,6 +95,16 @@ function getList(){
 		}
 	});
 }
+
+function edit(){
+	$("form").attr({
+		"action":"/admin/product/edit",
+		"enctype":"multipart/form-data",
+		"method":"post"
+	});
+	$("form").submit();
+}
+
 //삭제요청 product_id를 전송해야 한다!!
 function del(){
 	if(confirm("삭제하시겠습니까?")){
@@ -116,6 +126,7 @@ function regist(){
 	});
 	$("form").submit();
 }
+
 </script>
 </head>
 <body>
@@ -123,6 +134,7 @@ function regist(){
 	<div class="container">
 		<form>
 			<input type="hidden" name="product_id" value="<%=product.getProduct_id()%>">
+			<input type="hidden" name="filename" value="<%=product.getFilename()%>">
 			<select name="category.category_id">
 				<option value="0">카테고리 선택</option>
 			</select> 

@@ -34,8 +34,10 @@ public class ProductDAO {
 		}
 	}
 	
-	public void edit(Product product) {
-		
-		
+	public void update(Product product) {
+		int result=sessionTemplate.update("Product.update",product);
+		if(result==0) {
+			throw new DMLException("상품이 업데이트 되지 않았습니다");
+		}
 	}
 }

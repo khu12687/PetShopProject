@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.pet.exception.FileSaveException;
+import com.pet.exception.FileException;
 
 @Component
 public class FileManager {
@@ -28,7 +28,7 @@ public class FileManager {
 	}
 	
 	//지정한 경로에 파일 저장하기!!
-	public static String saveFile(MultipartFile myFile,String realPath) throws FileSaveException{
+	public static String saveFile(MultipartFile myFile,String realPath) throws FileException{
 		String ori = myFile.getOriginalFilename();
 		System.out.println("파일명은"+ori);
 		
@@ -48,8 +48,18 @@ public class FileManager {
 		}
 		
 		if(flag==false) {
-			throw new FileSaveException("파일 저장에 실패하였습니다");
+			throw new FileException("파일 저장에 실패하였습니다");
 		}
 		return dest.getName();
 	}
+	
+	//파일 삭제
+	public static void removeFile(String realPath) throws FileException{
+		File file = new File(realPath);
+		boolean result = file.delete();
+		if(!result) {
+			throw new FileException("삭제에 실패하였습니다");
+		}
+	}
+	
 }
