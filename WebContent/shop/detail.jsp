@@ -26,12 +26,36 @@
 }
 </style>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(function(){
+	//장바구니담기
+	$($("button")[0]).click(function(){
+		goCart();
+
+	});
+	
+	//바로 구매하기
+	$($("button")[1]).click(function(){
+		buy();
+	});
+});
+function goCart() {
+	//장바구니 담기 요청
+	$("form").attr({
+		"action":"/shop/cart/regist",
+		"method":"post"
+	});
+	$("form").submit();
+}
+function buy(){
+	
+}
+</script>
 <body>
-   <div id="header">
-      <a href="#" id="logo"><img src="/images/logo.gif" width="310"
-         height="114" alt=""></a>
+   
       <%@include file="/include/main_navi.jsp"%>
-   </div>
+  
    <div id="body">
       <div id="content">
          <!-- 상세보기 -->
@@ -39,14 +63,23 @@
             <img alt="" src="/data/<%=product.getFilename()%>" width="50%">
          </div>
          <div class="spec">
-            <ul>
-               <li>카테고리:<%=product.getCategory().getCategory_name() %></li>
-               <li>상품명:<%=product.getProduct_name() %></li>
-               <li>가격:<%=product.getPrice() %></li>
-               <li>브랜드:<%=product.getBrand() %></li>
-            </ul>
-            <button>장바구니</button>
-            <button>바로구매</button>
+            <form>
+	            <input type="hidden" name="product_id" value="<%=product.getProduct_id()%>"/>
+	            <input type="hidden" name="category.category_id" value="<%=product.getCategory().getCategory_id()%>"/>
+	            <input type="hidden" name="category.category_name" value="<%=product.getCategory().getCategory_name()%>"/>            
+	            <input type="hidden" name="product_name" value="<%=product.getProduct_name()%>"/>
+	            <input type="hidden" name="price" value="<%=product.getPrice()%>"/>
+	            <input type="hidden" name="brand" value="<%=product.getBrand()%>"/>
+	            <input type="hidden" name="filename" value="<%=product.getFilename()%>"/>
+	            <ul>
+	               <li>카테고리:<%=product.getCategory().getCategory_name() %></li>
+	               <li>상품명:<%=product.getProduct_name() %></li>
+	               <li>가격:<%=product.getPrice() %></li>
+	               <li>브랜드:<%=product.getBrand() %></li>
+	            </ul>
+         	</form>
+            <button onclick="goCart()">장바구니</button>
+            <button onclick="buy()">바로구매</button>
          </div>            
       </div>
       <div class="featured">

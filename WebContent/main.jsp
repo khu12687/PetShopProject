@@ -2,33 +2,33 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Product> productList = (List)request.getAttribute("productList");
+	List<Product> productList=(List)request.getAttribute("productList");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Pet Shop</title>
 <meta charset="utf-8">
-<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="/css/style.css" rel="stylesheet" type="text/css">
 <!--[if IE 6]><link href="css/ie6.css" rel="stylesheet" type="text/css"><![endif]-->
 <!--[if IE 7]><link href="css/ie7.css" rel="stylesheet" type="text/css"><![endif]-->
 </head>
 <body>
-<div id="header"> <a href="#" id="logo"><img src="images/logo.gif" width="310" height="114" alt=""></a>
-  <%@include file="/include/main_navi.jsp" %>
+<div id="header"> 
+	<%@ include file="/include/main_navi.jsp" %>
 </div>
 <div id="body">
   <div class="banner">&nbsp;</div>
   <div id="content">
     <div class="content">
       <ul>
-      <%for(int i=0;i<productList.size();i++){ %>
-      <%Product product = (Product)productList.get(i); %>
-        <li> <a href="/shop/detail?product_id=<%=product.getProduct_id()%>"><img src="/data/<%=product.getFilename()%>" width="114" height="160" alt=""></a>
-          <h2><%=product.getProduct_name()%></h2>
-          <p><%=product.getBrand()%> <a class="more" href="#">View all</a></p>
+      	<%for(int i=0;i<productList.size();i++){%>
+      	<%Product product =(Product)productList.get(i); %>
+        <li> <a href="/shop/detail?product_id=<%=product.getProduct_id()%>"><img src="/data/<%=product.getFilename() %>" width="114" height="160" alt=""></a>
+          <h2><%=product.getProduct_name() %></h2>
+          <p><%=product.getBrand() %><a class="more" href="#">View all</a></p>
         </li>
-        <%} %>
+        <%}%>
       </ul>
     </div>
     <div id="sidebar">
@@ -75,7 +75,7 @@
   </div>
 </div>
 <div id="footer">
-	<%@ include file="/include/footer.jsp" %>
+  <%@ include file="/include/footer.jsp" %>
 </div>
 </body>
 </html>
